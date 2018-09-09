@@ -1,14 +1,14 @@
 class Face{
   
   constructor(canvas,arestas){
-    self.canvas=canvas;
-    self.arestas=arestas;
+    this.canvas=canvas;
+    this.arestas=arestas;
     
   }
   
   desenhar(){
-    for(aresta in self.arestas){
-      aresta.desenhar(self.canvas);
+    for(aresta in this.arestas){
+      aresta.desenhar(this.canvas);
     }
   }
 }
@@ -16,8 +16,8 @@ class Face{
 class Aresta{
   constructor(ponto1,ponto2)
   {
-    self.ponto1=ponto1;
-    self.ponto2=ponto2;
+    this.ponto1=ponto1;
+    this.ponto2=ponto2;
   }
   
   desenhar(canvas){
@@ -30,7 +30,7 @@ class Aresta{
 class Ponto{
   constructor(x,y)
   {
-    self.x=x;
-    self.y=y;
+    this.x=x;
+    this.y=y;
   }
 }
