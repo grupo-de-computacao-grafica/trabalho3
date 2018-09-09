@@ -6,9 +6,27 @@
     </title>
     <script src="canvas.js">
     </script>
+    <script>
+      ctx=document.getElementById("letra-I").getContext("2d");
+      arestas=[]
+      arestas[0]=Aresta(Ponto(0,0), Ponto(100,0));
+      arestas[1]=Aresta(Ponto(100,0),Ponto(100,30));
+      arestas[2]=Aresta(Ponto(100,30),Ponto(66,30));
+      arestas[3]=Aresta(Ponto(66,30),Ponto(66,100));
+      arestas[4]=Aresta(Ponto(66,100),Ponto(100,100));
+      arestas[5]=Aresta(Ponto(100,100),Ponto(100,130));
+      arestas[6]=Aresta(Ponto(100,130),Ponto(0,130));
+      arestas[7]=Aresta(Ponto(0,130),Ponto(0,100));
+      arestas[8]=Aresta(Ponto(0,100),Ponto(33,100));
+      arestas[9]=Aresta(Ponto(33,100),Ponto(33,30));
+      arestas[10]=Aresta(Ponto(33,30),Ponto(0,30));
+      arestas[11]=Aresta(Ponto(0,30),Ponto(0,0));
+      face=Face(ctx,arestas);
+    </script>
   </head>
   <body>
-    <canvas id="letra-I">
+    <canvas id="letra-I" width="600" height="600">
+      Não vai dar para mostrar o trabalho se teu navegador não suportar canvas.
     </canvas>
   </body>
 </html>
