@@ -4,9 +4,12 @@ class Face{
   }
 
   desenhar(canvas){
-    for(let i = 0; i < this.arestas.length; i++) {
+    canvas.beginPath();
+    this.arestas[0].desenharPrimeiro(canvas);
+    for(let i = 1; i < this.arestas.length; i++) {
       this.arestas[i].desenhar(canvas);
     }
+    canvas.fill();
   }
 }
 
@@ -16,12 +19,14 @@ class Aresta{
     this.ponto2=ponto2;
   }
   
-  desenhar(canvas){
-    canvas.beginPath();
+  desenharPrimeiro(canvas){
     canvas.moveTo(this.ponto1.x,this.ponto1.y);
     canvas.lineTo(this.ponto2.x,this.ponto2.y);
-    canvas.strokeStyle="red";
-    canvas.stroke();
+  }
+  
+  desenhar(canvas){
+    canvas.lineTo(this.ponto1.x,this.ponto1.y);
+    canvas.lineTo(this.ponto2.x,this.ponto2.y);
   }
 }
 
