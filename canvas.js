@@ -9,7 +9,6 @@ class Face{
     for(let i = 1; i < this.arestas.length; i++) {
       this.arestas[i].desenhar(canvas);
     }
-    canvas.fill();
   }
 }
 
@@ -22,11 +21,13 @@ class Aresta{
   desenharPrimeiro(canvas){
     canvas.moveTo(this.ponto1.x,this.ponto1.y);
     canvas.lineTo(this.ponto2.x,this.ponto2.y);
+	canvas.stroke();
   }
   
   desenhar(canvas){
     canvas.lineTo(this.ponto1.x,this.ponto1.y);
     canvas.lineTo(this.ponto2.x,this.ponto2.y);
+	canvas.stroke();
   }
 }
 
