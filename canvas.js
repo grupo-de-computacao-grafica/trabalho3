@@ -1,3 +1,25 @@
+class Vertices{
+	constructor(x,y){
+		this.atual=new Ponto(x,y);
+		this.original=new Ponto(x,y);
+	}
+	reset(){
+		this.atual=new Ponto(this.original.x,this.original.y);
+	}
+	rodar(theta){
+		this.atual.rodar(theta);
+	}
+	transladar(dx,dy){
+		this.atual.transladar(dx,dy);
+	}
+	getX(){
+		return this.atual.x;
+	}
+	getY(){
+		return this.atual.y;
+	}
+}
+
 class Face{
   constructor(arestas) {
     this.arestas=arestas;
