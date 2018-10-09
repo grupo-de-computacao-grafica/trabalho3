@@ -32,6 +32,19 @@ class Face{
       this.arestas[i].desenhar(canvas);
     }
   }
+
+  rodar(theta){	  
+	for(let i = 0; i<arestas.length; i++){
+		arestas[i].rodar(theta);
+	}
+  }
+
+  transladar(dx,dy){
+	for(let i = 0; i<arestas.length; i++){
+		arestas[i].transladar(dx,dy);
+	}
+
+  }
 }
 
 class Aresta{
