@@ -98,6 +98,4 @@ class Bootstrap {
 }
 
 //initialize
-(() => {
   setTimeout(() => new Bootstrap(), 100);
-})();
