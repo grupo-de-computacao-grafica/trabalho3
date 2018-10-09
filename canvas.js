@@ -1,4 +1,4 @@
-class Vertices{
+class Vertice{
 	constructor(x,y){
 		this.atual=new Ponto(x,y);
 		this.original=new Ponto(x,y);
@@ -54,14 +54,14 @@ class Aresta{
   }
   
   desenharPrimeiro(canvas){
-    canvas.moveTo(this.vertice1.x,this.vertice1.y);
-    canvas.lineTo(this.vertice2.x,this.vertice2.y);
+    canvas.moveTo(this.vertice1.getX(),this.vertice1.getY());
+    canvas.lineTo(this.vertice2.getX(),this.vertice2.getY());
 	canvas.stroke();
   }
   
   desenhar(canvas){
-    canvas.lineTo(this.vertice1.x,this.vertice1.y);
-    canvas.lineTo(this.vertice2.x,this.vertice2.y);
+    canvas.lineTo(this.vertice1.getX(),this.vertice1.getY());
+    canvas.lineTo(this.vertice2.getX(),this.vertice2.getY());
 	canvas.stroke();
   }
 }
