@@ -108,4 +108,4 @@ class Bootstrap {
 
 
 
-setInterval(() => {ctx.clearRect(0,0,canvas.width,canvas.height); face.desenhar(ctx); face.transladar(10,10); },100);
+setInterval(() => {ctx.clearRect(0,0,canvas.width,canvas.height); face.desenhar(ctx); face.transladar(5,5); },50);
