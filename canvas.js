@@ -52,7 +52,10 @@ class Aresta{
     this.vertice1=vertice1;
     this.vertice2=vertice2;
   }
-  
+  transladar(dx,dy){
+	  this.vertice1.transladar(dx,dy);
+	  this.vertice2.transladar(dx,dy);
+  }
   desenharPrimeiro(canvas){
     canvas.moveTo(this.vertice1.getX(),this.vertice1.getY());
     canvas.lineTo(this.vertice2.getX(),this.vertice2.getY());
@@ -71,31 +74,38 @@ class Ponto{
     this.x=x;
     this.y=y;
   }
+  transladar(dx,dy){
+	  this.x=this.x+dx;
+	  this.y=this.y+dy;
+  }
 }
+const canvas = document.getElementById("letra-I");
+const ctx=canvas.getContext("2d");
+const arestas=[
+new Aresta(new Vertice(0,0), new Vertice(100,0)),
+new Aresta(new Vertice(100,0),new Vertice(100,30)),
+new Aresta(new Vertice(100,30),new Vertice(66,30)),
+new Aresta(new Vertice(66,30),new Vertice(66,100)),
+new Aresta(new Vertice(66,100),new Vertice(100,100)),
+new Aresta(new Vertice(100,100),new Vertice(100,130)),
+new Aresta(new Vertice(100,130),new Vertice(0,130)),
+new Aresta(new Vertice(0,130),new Vertice(0,100)),
+new Aresta(new Vertice(0,100),new Vertice(33,100)),
+new Aresta(new Vertice(33,100),new Vertice(33,30)),
+new Aresta(new Vertice(33,30),new Vertice(0,30)),
+new Aresta(new Vertice(0,30), new Vertice(0,0))];
+const face= new Face(arestas);
+
 
 
 class Bootstrap {
   constructor() {
     console.log('Bootstrap');
-    const ctx=document.getElementById("letra-I").getContext("2d");
-    const arestas=[
-      new Aresta(new Vertice(0,0), new Vertice(100,0)),
-      new Aresta(new Vertice(100,0),new Vertice(100,30)),
-      new Aresta(new Vertice(100,30),new Vertice(66,30)),
-      new Aresta(new Vertice(66,30),new Vertice(66,100)),
-      new Aresta(new Vertice(66,100),new Vertice(100,100)),
-      new Aresta(new Vertice(100,100),new Vertice(100,130)),
-      new Aresta(new Vertice(100,130),new Vertice(0,130)),
-      new Aresta(new Vertice(0,130),new Vertice(0,100)),
-      new Aresta(new Vertice(0,100),new Vertice(33,100)),
-      new Aresta(new Vertice(33,100),new Vertice(33,30)),
-      new Aresta(new Vertice(33,30),new Vertice(0,30)),
-      new Aresta(new Vertice(0,30), new Vertice(0,0))
-    ];
-    const face= new Face(arestas);
     face.desenhar(ctx)
   }
 }
 
-//initialize
-  setTimeout(() => new Bootstrap(), 100);
+
+
+
+setInterval(() => {ctx.clearRect(0,0,canvas.width,canvas.height); face.desenhar(ctx); face.transladar(10,10); },100);
