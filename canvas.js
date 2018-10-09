@@ -35,20 +35,20 @@ class Face{
 }
 
 class Aresta{
-  constructor(ponto1,ponto2) {
-    this.ponto1=ponto1;
-    this.ponto2=ponto2;
+  constructor(vertice1,vertice2) {
+    this.vertice1=vertice1;
+    this.vertice2=vertice2;
   }
   
   desenharPrimeiro(canvas){
-    canvas.moveTo(this.ponto1.x,this.ponto1.y);
-    canvas.lineTo(this.ponto2.x,this.ponto2.y);
+    canvas.moveTo(this.vertice1.x,this.vertice1.y);
+    canvas.lineTo(this.vertice2.x,this.vertice2.y);
 	canvas.stroke();
   }
   
   desenhar(canvas){
-    canvas.lineTo(this.ponto1.x,this.ponto1.y);
-    canvas.lineTo(this.ponto2.x,this.ponto2.y);
+    canvas.lineTo(this.vertice1.x,this.vertice1.y);
+    canvas.lineTo(this.vertice2.x,this.vertice2.y);
 	canvas.stroke();
   }
 }
@@ -60,23 +60,30 @@ class Ponto{
   }
 }
 
+class Vertice{
+  constructor(x,y) {
+    this.x=x;
+    this.y=y;
+  }
+}
+
 class Bootstrap {
   constructor() {
     console.log('Bootstrap');
     const ctx=document.getElementById("letra-I").getContext("2d");
     const arestas=[
-      new Aresta(new Ponto(0,0), new Ponto(100,0)),
-      new Aresta(new Ponto(100,0),new Ponto(100,30)),
-      new Aresta(new Ponto(100,30),new Ponto(66,30)),
-      new Aresta(new Ponto(66,30),new Ponto(66,100)),
-      new Aresta(new Ponto(66,100),new Ponto(100,100)),
-      new Aresta(new Ponto(100,100),new Ponto(100,130)),
-      new Aresta(new Ponto(100,130),new Ponto(0,130)),
-      new Aresta(new Ponto(0,130),new Ponto(0,100)),
-      new Aresta(new Ponto(0,100),new Ponto(33,100)),
-      new Aresta(new Ponto(33,100),new Ponto(33,30)),
-      new Aresta(new Ponto(33,30),new Ponto(0,30)),
-      new Aresta(new Ponto(0,30), new Ponto(0,0))
+      new Aresta(new Vertice(0,0), new Vertice(100,0)),
+      new Aresta(new Vertice(100,0),new Vertice(100,30)),
+      new Aresta(new Vertice(100,30),new Vertice(66,30)),
+      new Aresta(new Vertice(66,30),new Vertice(66,100)),
+      new Aresta(new Vertice(66,100),new Vertice(100,100)),
+      new Aresta(new Vertice(100,100),new Vertice(100,130)),
+      new Aresta(new Vertice(100,130),new Vertice(0,130)),
+      new Aresta(new Vertice(0,130),new Vertice(0,100)),
+      new Aresta(new Vertice(0,100),new Vertice(33,100)),
+      new Aresta(new Vertice(33,100),new Vertice(33,30)),
+      new Aresta(new Vertice(33,30),new Vertice(0,30)),
+      new Aresta(new Vertice(0,30), new Vertice(0,0))
     ];
     const face= new Face(arestas);
     face.desenhar(ctx)
