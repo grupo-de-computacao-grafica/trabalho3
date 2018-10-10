@@ -104,8 +104,8 @@ class Ponto{
 const canvas = document.getElementById("letra-I");
 const ctx=canvas.getContext("2d");
 
-var x = window.innerWidth/2;
-var y = window.innerHeight/2;
+var originX = window.innerWidth/2 - 100;
+var originY = window.innerHeight/2 - 100;
 
 function getArestasForLetterI(x,y) {
 	const positions = [
@@ -126,7 +126,7 @@ function getArestasForLetterI(x,y) {
 
 }
 
-const face = new Face(getArestasForLetterI(x,y));
+const face = new Face(getArestasForLetterI(originX,originY));
 
 
 
@@ -153,7 +153,7 @@ setInterval(() => {
 
 	ctx.clearRect(0,0,canvas.width,canvas.height); 
 	face.desenhar(ctx); 
-	face.transladar(5,-5); 
+	face.transladar(5,5); 
 
 	const theta = 90*pi/45/100;
 	face.rodar(theta);
