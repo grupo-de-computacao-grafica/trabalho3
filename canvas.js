@@ -34,16 +34,16 @@ class Face{
   }
 
   rodar(theta){
-	centroidex=0;
-	centroidey=0;
+	var centroidex=0;
+	var centroidey=0;
 	for(let i = 0; i<arestas.length; i++){
 		centroidex = centroidex + arestas[i].vertice1.getX() + arestas[i].vertice2.getX();
 		centroidey = centroidey + arestas[i].vertice1.getY() + arestas[i].vertice2.getY();
 	}
 	centroidex=centroidex-arestas[0].vertice1.getX();
 	centroidey=centroidey-arestas[0].vertice1.getY();
-	numeroPontos=arestas.length*2-1;
-	centroide = new Ponto(centroidex/numeroPontos,centroidey/numeroPontos);
+	var numeroPontos=arestas.length*2-1;
+	var centroide = new Ponto(centroidex/numeroPontos,centroidey/numeroPontos);
 	for(let i = 0; i<arestas.length; i++){
 		arestas[i].rodar(theta,centroide);
 	}
