@@ -6,8 +6,8 @@ class Vertice{
 	reset(){
 		this.atual=new Ponto(this.original.x,this.original.y);
 	}
-	rodar(theta){
-		this.atual.rodar(theta);
+	rodar(theta,ponto){
+		this.atual.rodar(theta,ponto);
 	}
 	transladar(dx,dy){
 		this.atual.transladar(dx,dy);
@@ -33,9 +33,19 @@ class Face{
     }
   }
 
-  rodar(theta){	  
+  rodar(theta){
+	centroidex=0;
+	centroidey=0;
 	for(let i = 0; i<arestas.length; i++){
-		arestas[i].rodar(theta);
+		centroidex = centroidex + arestas[i].vertice1.getX() + arestas[i].vertice2.getX();
+		centroidey = centroidey + arestas[i].vertice1.getY() + arestas[i].vertice2.getY();
+	}
+	centroidex=centroidex-arestas[0].vertice1.getX();
+	centroidey=centroidey-arestas[0].vertice1.getY();
+	numeroPontos=arestas.length*2-1;
+	centroide = new Ponto(centroidex/numeroPontos,centroidey/numeroPontos);
+	for(let i = 0; i<arestas.length; i++){
+		arestas[i].rodar(theta,centroide);
 	}
   }
 
@@ -67,6 +77,12 @@ class Aresta{
     canvas.lineTo(this.vertice2.getX(),this.vertice2.getY());
 	canvas.stroke();
   }
+	
+  rodar(theta,ponto){
+	  this.vertice1.rodar(theta,ponto);
+	  this.vertice2.rodar(theta,ponto);
+	  
+  }
 }
 
 class Ponto{
@@ -77,6 +93,12 @@ class Ponto{
   transladar(dx,dy){
 	  this.x=this.x+dx;
 	  this.y=this.y+dy;
+  }
+  rodar(theta,ponto){
+	  this.transladar(-ponto.x,-ponto.y);
+	  this.x=this.x*Math.cos(theta)-this.y*Math.sin(theta);
+	  this.y=this.x*Math.sin(theta)+this.y*Math.cos(theta);
+	  this.transladar(ponto.x,.ponto.y);
   }
 }
 const canvas = document.getElementById("letra-I");
@@ -108,4 +130,4 @@ class Bootstrap {
 
 
 
-setInterval(() => {ctx.clearRect(0,0,canvas.width,canvas.height); face.desenhar(ctx); face.transladar(5,5); },50);
+setInterval(() => {ctx.clearRect(0,0,canvas.width,canvas.height); face.desenhar(ctx); face.transladar(5,5); face.rodar(90*3.141592/180/100);},50);
