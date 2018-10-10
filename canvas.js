@@ -36,22 +36,22 @@ class Face{
   rodar(theta){
 	var centroidex=0;
 	var centroidey=0;
-	for(let i = 0; i<arestas.length; i++){
-		centroidex = centroidex + arestas[i].vertice1.getX() + arestas[i].vertice2.getX();
-		centroidey = centroidey + arestas[i].vertice1.getY() + arestas[i].vertice2.getY();
+	for(let i = 0; i<this.arestas.length; i++){
+		centroidex = centroidex + this.arestas[i].vertice1.getX() + this.arestas[i].vertice2.getX();
+		centroidey = centroidey + this.arestas[i].vertice1.getY() + this.arestas[i].vertice2.getY();
 	}
-	centroidex=centroidex-arestas[0].vertice1.getX();
-	centroidey=centroidey-arestas[0].vertice1.getY();
-	var numeroPontos=arestas.length*2-1;
+	centroidex=centroidex-this.arestas[0].vertice1.getX();
+	centroidey=centroidey-this.arestas[0].vertice1.getY();
+	var numeroPontos=this.arestas.length*2-1;
 	var centroide = new Ponto(centroidex/numeroPontos,centroidey/numeroPontos);
-	for(let i = 0; i<arestas.length; i++){
-		arestas[i].rodar(theta,centroide);
+	for(let i = 0; i<this.arestas.length; i++){
+		this.arestas[i].rodar(theta,centroide);
 	}
   }
 
   transladar(dx,dy){
-	for(let i = 0; i<arestas.length; i++){
-		arestas[i].transladar(dx,dy);
+	for(let i = 0; i<this.arestas.length; i++){
+		this.arestas[i].transladar(dx,dy);
 	}
 
   }
@@ -103,20 +103,30 @@ class Ponto{
 }
 const canvas = document.getElementById("letra-I");
 const ctx=canvas.getContext("2d");
-const arestas=[
-new Aresta(new Vertice(0,0), new Vertice(100,0)),
-new Aresta(new Vertice(100,0),new Vertice(100,30)),
-new Aresta(new Vertice(100,30),new Vertice(66,30)),
-new Aresta(new Vertice(66,30),new Vertice(66,100)),
-new Aresta(new Vertice(66,100),new Vertice(100,100)),
-new Aresta(new Vertice(100,100),new Vertice(100,130)),
-new Aresta(new Vertice(100,130),new Vertice(0,130)),
-new Aresta(new Vertice(0,130),new Vertice(0,100)),
-new Aresta(new Vertice(0,100),new Vertice(33,100)),
-new Aresta(new Vertice(33,100),new Vertice(33,30)),
-new Aresta(new Vertice(33,30),new Vertice(0,30)),
-new Aresta(new Vertice(0,30), new Vertice(0,0))];
-const face= new Face(arestas);
+
+var x = window.innerWidth/2;
+var y = window.innerHeight/2;
+
+function getArestasForLetterI(x,y) {
+	const positions = [
+		[[0,0], [100,0]],
+		[[100,0], [100,30]],
+		[[100,30], [66,30]],
+		[[66,30], [66,100]],
+		[[66,100], [100,100]],
+		[[100,100], [100,130]],
+		[[100,130], [0,130]],
+		[[0,130], [0,100]],
+		[[0,100], [33,100]],
+		[[33,100], [33,30]],
+		[[33,30], [0,30]],
+		[[0,30], [0,0]]
+	];
+	return positions.map(pt => new Aresta(new Vertice(x + pt[0][0], y + pt[0][1]), new Vertice(x + pt[1][0], y + pt[1][1])));
+
+}
+
+const face = new Face(getArestasForLetterI(x,y));
 
 
 
@@ -128,6 +138,26 @@ class Bootstrap {
 }
 
 
+window.addEventListener('resize', resizeCanvas, false);
+function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+}
+resizeCanvas();
 
+sumTheta = 0;
+setInterval(() => {
 
-setInterval(() => {ctx.clearRect(0,0,canvas.width,canvas.height); face.desenhar(ctx); face.transladar(5,5); face.rodar(90*3.141592/180/100);},50);
+	const pi = 3.141592;
+	if(sumTheta > pi) return;
+
+	ctx.clearRect(0,0,canvas.width,canvas.height); 
+	face.desenhar(ctx); 
+	face.transladar(5,-5); 
+
+	const theta = 90*pi/45/100;
+	face.rodar(theta);
+
+	sumTheta += theta;
+
+},50);
