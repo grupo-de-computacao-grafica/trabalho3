@@ -98,7 +98,7 @@ class Ponto{
 	  this.transladar(-ponto.x,-ponto.y);
 	  this.x=this.x*Math.cos(theta)-this.y*Math.sin(theta);
 	  this.y=this.x*Math.sin(theta)+this.y*Math.cos(theta);
-	  this.transladar(ponto.x,.ponto.y);
+	  this.transladar(ponto.x,ponto.y);
   }
 }
 const canvas = document.getElementById("letra-I");
