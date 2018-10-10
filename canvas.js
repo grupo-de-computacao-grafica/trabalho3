@@ -145,19 +145,28 @@ function resizeCanvas() {
 }
 resizeCanvas();
 
-sumTheta = 0;
-setInterval(() => {
+const pi = 3.141592;
+const theta = pi / 100;
 
-	const pi = 3.141592;
-	if(sumTheta > pi) return;
+sumTheta = 0;
+invert = 1;
+
+const loop = false;
+
+setInterval(() => {
+	
+	if(sumTheta >= pi/2 + theta - 0.001) { 
+		if(!loop) return;
+		invert = - invert; 
+		sumTheta = 0; 
+	};
 
 	ctx.clearRect(0,0,canvas.width,canvas.height); 
 	face.desenhar(ctx); 
-	face.transladar(5,5); 
+	face.transladar(invert*5,invert*5); 
 
-	const theta = 90*pi/45/100;
-	face.rodar(theta);
+	face.rodar(invert*theta);
 
 	sumTheta += theta;
 
-},50);
+},25);
