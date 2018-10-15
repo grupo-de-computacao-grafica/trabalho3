@@ -1,16 +1,16 @@
 class Vertice{
-	constructor(x,y){
-		this.atual=new Ponto(x,y);
-		this.original=new Ponto(x,y);
+	constructor(x,y,z){
+		this.atual=new Ponto(x,y,z);
+		this.original=new Ponto(x,y,z);
 	}
 	reset(){
-		this.atual=new Ponto(this.original.x,this.original.y);
+		this.atual=new Ponto(this.original.x,this.original.y,this.original.z);
 	}
-	rodar(theta,ponto){
-		this.atual.rodar(theta,ponto);
+	rodar(thetax,thetay,thetaz,ponto){
+		this.atual.rodar(thetax,thetay,thetaz,ponto);
 	}
-	transladar(dx,dy){
-		this.atual.transladar(dx,dy);
+	transladar(dx,dy,dz){
+		this.atual.transladar(dx,dy,dz);
 	}
 	getX(){
 		return this.atual.x;
@@ -18,13 +18,16 @@ class Vertice{
 	getY(){
 		return this.atual.y;
 	}
+	getZ(){
+		return this.atual.z;
+	}
 }
 
 class Face{
   constructor(arestas) {
     this.arestas=arestas;
   }
-
+//TODO : quais argumentos desenhar pode receber?
   desenhar(canvas){
     canvas.beginPath();
     this.arestas[0].desenharPrimeiro(canvas);
@@ -33,15 +36,18 @@ class Face{
     }
   }
 
-  rodar(theta){
+  rodar(thetax,thetay,thetaz){
 	var centroidex=0;
 	var centroidey=0;
+	var centroidez=0;
 	for(let i = 0; i<this.arestas.length; i++){
 		centroidex = centroidex + this.arestas[i].vertice1.getX() + this.arestas[i].vertice2.getX();
 		centroidey = centroidey + this.arestas[i].vertice1.getY() + this.arestas[i].vertice2.getY();
+		centroidez = centroidez + this.arestas[i].vertice1.getZ() + this.arestas[i].vertice2.getZ();
 	}
 	centroidex=centroidex-this.arestas[0].vertice1.getX();
 	centroidey=centroidey-this.arestas[0].vertice1.getY();
+	centroidez=centroidez-this.arestas[0].vertice1.getZ();
 	var numeroPontos=this.arestas.length*2-1;
 	var centroide = new Ponto(centroidex/numeroPontos,centroidey/numeroPontos);
 	for(let i = 0; i<this.arestas.length; i++){
