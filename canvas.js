@@ -135,13 +135,6 @@ const face = new Face(getArestasForLetterI(originX,originY));
 
 
 
-class Bootstrap {
-  constructor() {
-    console.log('Bootstrap');
-    face.desenhar(ctx)
-  }
-}
-
 
 window.addEventListener('resize', resizeCanvas, false);
 function resizeCanvas() {
