@@ -1,16 +1,16 @@
 class Vertice{
-	constructor(x,y){
-		this.atual=new Ponto(x,y);
-		this.original=new Ponto(x,y);
+	constructor(x,y,z=0){
+		this.atual=new Ponto(x,y,z);
+		this.original=new Ponto(x,y,z);
 	}
 	reset(){
-		this.atual=new Ponto(this.original.x,this.original.y);
+		this.atual=new Ponto(this.original.x,this.original.y,this.original.z);
 	}
-	rodar(theta,ponto){
-		this.atual.rodar(theta,ponto);
+	rodar(thetax,thetay,thetaz,ponto){ //rodar precisa de quantos thetas?
+		this.atual.rodar(thetax,thetay,thetaz,ponto);
 	}
-	transladar(dx,dy){
-		this.atual.transladar(dx,dy);
+	transladar(dx,dy,dz){
+		this.atual.transladar(dx,dy,dz);
 	}
 	getX(){
 		return this.atual.x;
@@ -18,14 +18,24 @@ class Vertice{
 	getY(){
 		return this.atual.y;
 	}
+	getZ(){
+		return this.atual.z;
+	}
 }
+
+class Solido{
+	constructor(faces){
+		this.faces=faces;
+	}
+}
+
 
 class Face{
   constructor(arestas) {
     this.arestas=arestas;
   }
-
-  desenhar(canvas){
+//TODO : desenhar precisa ser revisto em 3D
+  desenhar(canvas){ //desenhar vai ficar bem mais complexo
     canvas.beginPath();
     this.arestas[0].desenharPrimeiro(canvas);
     for(let i = 1; i < this.arestas.length; i++) {
@@ -33,25 +43,16 @@ class Face{
     }
   }
 
-  rodar(theta){
-	var centroidex=0;
-	var centroidey=0;
-	for(let i = 0; i<this.arestas.length; i++){
-		centroidex = centroidex + this.arestas[i].vertice1.getX() + this.arestas[i].vertice2.getX();
-		centroidey = centroidey + this.arestas[i].vertice1.getY() + this.arestas[i].vertice2.getY();
-	}
-	centroidex=centroidex-this.arestas[0].vertice1.getX();
-	centroidey=centroidey-this.arestas[0].vertice1.getY();
-	var numeroPontos=this.arestas.length*2-1;
-	var centroide = new Ponto(centroidex/numeroPontos,centroidey/numeroPontos);
+  rodar(thetax,thetay,thetaz){
+	centroide=this.calculaCentroide(); //TODO : calculaCentroide
 	for(let i = 0; i<this.arestas.length; i++){
 		this.arestas[i].rodar(theta,centroide);
 	}
   }
 
-  transladar(dx,dy){
+  transladar(dx,dy,dz){
 	for(let i = 0; i<this.arestas.length; i++){
-		this.arestas[i].transladar(dx,dy);
+		this.arestas[i].transladar(dx,dy,dz);
 	}
 
   }
@@ -62,10 +63,11 @@ class Aresta{
     this.vertice1=vertice1;
     this.vertice2=vertice2;
   }
-  transladar(dx,dy){
-	  this.vertice1.transladar(dx,dy);
-	  this.vertice2.transladar(dx,dy);
+  transladar(dx,dy,dz){
+	  this.vertice1.transladar(dx,dy,dz);
+	  this.vertice2.transladar(dx,dy,dz);
   }
+//TODO : desenhar{,Primeiro} precisam ser revistos para 3D
   desenharPrimeiro(canvas){
     canvas.moveTo(this.vertice1.getX(),this.vertice1.getY());
     canvas.lineTo(this.vertice2.getX(),this.vertice2.getY());
@@ -78,24 +80,27 @@ class Aresta{
 	canvas.stroke();
   }
 	
-  rodar(theta,ponto){
-	  this.vertice1.rodar(theta,ponto);
-	  this.vertice2.rodar(theta,ponto);
+  rodar(thetax,thetay,thetaz,ponto){
+	  this.vertice1.rodar(thetax,thetay,thetaz,ponto);
+	  this.vertice2.rodar(thetax,thetay,thetaz,ponto);
 	  
   }
 }
 
 class Ponto{
-  constructor(x,y) {
+  constructor(x,y,z) {
     this.x=x;
     this.y=y;
+    this.z=z;
   }
-  transladar(dx,dy){
+  transladar(dx,dy,dz){
 	  this.x=this.x+dx;
 	  this.y=this.y+dy;
+	  this.z=this.z+dz;
   }
-  rodar(theta,ponto){
-	  this.transladar(-ponto.x,-ponto.y);
+//TODO : rodar
+  rodar(thetax,thetay,thetaz,ponto){
+	  this.transladar(-ponto.x,-ponto.y,-ponto.z);
 	  this.x=this.x*Math.cos(theta)-this.y*Math.sin(theta);
 	  this.y=this.x*Math.sin(theta)+this.y*Math.cos(theta);
 	  this.transladar(ponto.x,ponto.y);
