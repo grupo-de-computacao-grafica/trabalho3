@@ -1,3 +1,8 @@
+class Observador{
+}
+class Camera{
+}
+
 class Solido{
 	constructor(faces){
 		this.faces=faces;
