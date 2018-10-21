@@ -11,6 +11,8 @@ class Solido{
 	}
 	transladar(dz,dy,dz){
 	}
+	pespectiva(...){
+	}
 }
 
 
@@ -44,6 +46,8 @@ class Vertice{
 class Face{
   constructor(arestas) {
     this.arestas=arestas;
+  }
+  estaVisivel(observador){
   }
 //TODO : desenhar precisa ser revisto em 3D
   desenhar(canvas){ //desenhar vai ficar bem mais complexo
