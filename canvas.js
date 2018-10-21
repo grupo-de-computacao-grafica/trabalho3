@@ -1,3 +1,19 @@
+class Solido{
+	constructor(faces){
+		this.faces=faces;
+	}
+	rodarX(theta){
+		
+	}
+	rodarY(theta){
+	}
+	rodarZ(theta){
+	}
+	transladar(dz,dy,dz){
+	}
+}
+
+
 class Vertice{
 	constructor(x,y,z){
 		this.atual=new Ponto(x,y,z);
@@ -23,11 +39,6 @@ class Vertice{
 	}
 }
 
-class Solido{
-	constructor(faces){
-		this.faces=faces;
-	}
-}
 
 
 class Face{
