@@ -14,7 +14,7 @@ class Solido{
 	}
 	rodarZ(theta){
 	}
-	transladar(dz,dy,dz){
+	transladar(dx,dy,dz){
 	}
 	pespectiva(...){
 	}
