@@ -16,7 +16,7 @@ class Solido{
 	}
 	transladar(dx,dy,dz){
 	}
-	pespectiva(...){
+	pespectiva(){
 	}
 }
 
