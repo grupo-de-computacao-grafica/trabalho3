@@ -1,3 +1,5 @@
+
+
 class Observador{
 }
 class Camera{
@@ -188,3 +190,18 @@ setInterval(() => {
 	sumTheta += theta;
 
 },25);
+
+
+function calculaCentroide(l){
+	var aux=new Ponto(0,0,0);
+	for(p in l){
+		p=l[p];
+		aux.x+=p.x;
+		aux.y+=p.y;
+		aux.z+=p.z;
+	}
+	aux.x/=l.length;
+	aux.y/=l.length;
+	aux.z/=l.length;
+	return aux;
+}
