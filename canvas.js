@@ -1,8 +1,26 @@
-
+function calculaCentroide(l){
+	var aux=new Ponto(0,0,0);
+	for(p in l){
+		p=l[p];
+		aux.x+=p.x;
+		aux.y+=p.y;
+		aux.z+=p.z;
+	}
+	aux.x/=l.length;
+	aux.y/=l.length;
+	aux.z/=l.length;
+	return aux;
+}
 
 class Observador{
+	constructor(ponto){
+		this.ponto=ponto;
+	}
 }
 class Camera{
+	constructor(ponto){
+		this.ponto=ponto;
+	}
 }
 
 class Solido{
@@ -10,6 +28,17 @@ class Solido{
 		this.faces=faces;
 	}
 	rodarX(theta){
+		let l=[];
+		for(p in faces){
+			p=faces[p];
+			l=l+p.pontos();
+		}
+		l.filter((item,indice,array) => array.indexOf(item)==indice);
+		var centroide=calculaCentroide(l);
+		for(p in faces){
+			p=faces[p];
+			p.rodarX(theta,centroide);
+		}
 		
 	}
 	rodarY(theta){
@@ -192,16 +221,4 @@ setInterval(() => {
 },25);
 
 
-function calculaCentroide(l){
-	var aux=new Ponto(0,0,0);
-	for(p in l){
-		p=l[p];
-		aux.x+=p.x;
-		aux.y+=p.y;
-		aux.z+=p.z;
-	}
-	aux.x/=l.length;
-	aux.y/=l.length;
-	aux.z/=l.length;
-	return aux;
-}
+
