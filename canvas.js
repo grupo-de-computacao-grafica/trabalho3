@@ -29,11 +29,12 @@ class Solido{
 	}
 	rodarX(theta){
 		let l=[];
-		for(p in faces){
-			p=faces[p];
+		for(p in this.faces){
+			p=this.faces[p];
 			l=l+p.pontos();
 		}
-		l.filter((item,indice,array) => array.indexOf(item)==indice);
+		//codigo abaixo irá remover duplicatas
+		l=l.filter((item,indice,array) => array.indexOf(item)==indice);
 		var centroide=calculaCentroide(l);
 		for(p in faces){
 			p=faces[p];
@@ -42,10 +43,37 @@ class Solido{
 		
 	}
 	rodarY(theta){
+				let l=[];
+		for(p in faces){
+			p=faces[p];
+			l=l+p.pontos();
+		}
+		//codigo abaixo irá remover duplicatas
+		l=l.filter((item,indice,array) => array.indexOf(item)==indice);
+		var centroide=calculaCentroide(l);
+		for(p in faces){
+			p=faces[p];
+			p.rodarY(theta,centroide);
+		}
 	}
 	rodarZ(theta){
+				let l=[];
+		for(p in faces){
+			p=faces[p];
+			l=l+p.pontos();
+		}
+		//codigo abaixo irá remover duplicatas
+		l=l.filter((item,indice,array) => array.indexOf(item)==indice);
+		var centroide=calculaCentroide(l);
+		for(p in faces){
+			p=faces[p];
+			p.rodarZ(theta,centroide);
+		}
 	}
 	transladar(dx,dy,dz){
+		for(p in faces){
+			
+		}
 	}
 	pespectiva(){
 	}
