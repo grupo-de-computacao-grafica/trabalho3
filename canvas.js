@@ -15,7 +15,7 @@ function criaSolido(face)
 	{
 		let primeiraAresta=Aresta(face.arestas[i].vertice2,outraFace.arestas[i].vertice1);
 		let segundaAresta=Aresta(outraFace.arestas[i].vertice2,face.arestas[i].vertice1);
-		let auxFace=Face([face.arestas[i],primeiraAresta,outraFace.arestas[i],segundaAresta);
+		let auxFace=Face([face.arestas[i],primeiraAresta,outraFace.arestas[i],segundaAresta]);
 		l.append(auxFace);
 	}
 	l.append(face);
@@ -139,13 +139,6 @@ class Face
     for(let i = 1; i < this.arestas.length; i++) {
       this.arestas[i].desenhar(canvas);
     }
-  }
-
-  rodar(thetax,thetay,thetaz){
-	centroide=this.calculaCentroide(); //TODO : calculaCentroide
-	for(let i = 0; i<this.arestas.length; i++){
-		this.arestas[i].rodar(theta,centroide);
-	}
   }
 
   transladar(dx,dy,dz){
