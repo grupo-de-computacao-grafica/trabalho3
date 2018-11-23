@@ -1,3 +1,5 @@
+Mp = [[Math.sqrt(2)/2,-Math.sqrt(2)/2,0],[-1/Math.sqrt(6), -1/Math.sqrt(6),Math.sqrt(2/3)]]
+
 function copiaObj(o)
 {
 	return Object.assign({},o);
