@@ -105,11 +105,22 @@ class Vertice{
 	}
 }
 
-
+function min(a,b)
+{
+	return a<b?a:b;
+}
 
 class Face{
   constructor(arestas) {
     this.arestas=arestas;
+  }
+  comprimentoMenorAresta(){
+	let comprimento=0;
+	for(let i=0; i< this.arestas.length; i++)
+	{
+		comprimento=min(comprimento,this.arestas[i].comprimento());
+	}
+	return comprimento;
   }
   estaVisivel(observador){
   }
@@ -142,6 +153,12 @@ class Aresta{
     this.vertice1=vertice1;
     this.vertice2=vertice2;
   }
+	comprimento()
+	{
+		let dx=this.vertice1.getX()-this.vertice2.getX();
+		let dy=this.vertice1.getY()-this.vertice2.getY();
+		return Math.sqrt(dx*dx+dy*dy);
+	}
   transladar(dx,dy,dz){
 	  this.vertice1.transladar(dx,dy,dz);
 	  this.vertice2.transladar(dx,dy,dz);
