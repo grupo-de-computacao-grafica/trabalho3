@@ -1,3 +1,15 @@
+function copiaObj(o)
+{
+	return JSON.parse(JSON.stringify(o));
+}
+
+function criaSolido(face)
+{
+	let m=face.comprimentoMenorAresta();
+	let outraFace = copiaObj(face);
+	outraFace.transladar(0,0,m);
+}
+
 function calculaCentroide(l){
 	var aux=new Ponto(0,0,0);
 	for(p in l){
@@ -81,7 +93,7 @@ class Solido{
 
 
 class Vertice{
-	constructor(x,y,z){
+	constructor(x,y,z=0){
 		this.atual=new Ponto(x,y,z);
 		this.original=new Ponto(x,y,z);
 	}
