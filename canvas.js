@@ -22,7 +22,7 @@ function criaSolido(face)
 	}
 	l.append(face);
 	l.append(outraFace);
-	return Solido(l);
+	return new Solido(l);
 }
 
 function calculaCentroide(l)
@@ -42,14 +42,6 @@ function calculaCentroide(l)
 }
 
 class Observador
-{
-	constructor(ponto)
-	{
-		this.ponto=ponto;
-	}
-}
-
-class Camera
 {
 	constructor(ponto)
 	{
@@ -118,21 +110,23 @@ class Face
 	{
 		
 	}
-//TODO : desenhar precisa ser revisto em 3D
-  desenhar(canvas){ //desenhar vai ficar bem mais complexo
-    canvas.beginPath();
-    this.arestas[0].desenharPrimeiro(canvas);
-    for(let i = 1; i < this.arestas.length; i++) {
-      this.arestas[i].desenhar(canvas);
-    }
-  }
-
-  transladar(dx,dy,dz){
-	for(let i = 0; i<this.arestas.length; i++){
-		this.arestas[i].transladar(dx,dy,dz);
+	desenhar(canvas)
+	{
+		canvas.beginPath();
+		this.arestas[0].desenharPrimeiro(canvas);
+		for(let i = 1; i < this.arestas.length; i++)
+		{
+			this.arestas[i].desenhar(canvas);
+		}
 	}
 
-  }
+	transladar(dx,dy,dz)
+	{
+		for(let i = 0; i<this.arestas.length; i++)
+		{
+			this.arestas[i].transladar(dx,dy,dz);
+		}
+	}
 }
 
 class Aresta{
@@ -155,7 +149,7 @@ class Aresta{
 	  this.vertice1.transladar(dx,dy,dz);
 	  this.vertice2.transladar(dx,dy,dz);
   }
-//TODO : desenhar{,Primeiro} precisam ser revistos para 3D
+
   desenharPrimeiro(canvas){
     canvas.moveTo(this.vertice1.getX(),this.vertice1.getY());
     canvas.lineTo(this.vertice2.getX(),this.vertice2.getY());
@@ -181,6 +175,10 @@ class Vertice
 	{
 		this.atual=new Ponto(x,y,z);
 		this.original=new Ponto(x,y,z);
+	}
+	pespectiva()
+	{
+		this.atual.pespectiva();
 	}
 	reset()
 	{
@@ -209,24 +207,33 @@ class Vertice
 }
 
 
-class Ponto{
-  constructor(x,y,z) {
-    this.x=x;
-    this.y=y;
-    this.z=z;
-  }
-  transladar(dx,dy,dz){
-	  this.x=this.x+dx;
-	  this.y=this.y+dy;
-	  this.z=this.z+dz;
-  }
-//TODO : rodar
-  rodar(thetax,thetay,thetaz,ponto){
-	  this.transladar(-ponto.x,-ponto.y,-ponto.z);
-	  this.x=this.x*Math.cos(theta)-this.y*Math.sin(theta);
-	  this.y=this.x*Math.sin(theta)+this.y*Math.cos(theta);
-	  this.transladar(ponto.x,ponto.y);
-  }
+class Ponto
+{
+	constructor(x,y,z)
+	{
+		this.x=x;
+		this.y=y;
+		this.z=z;
+	}
+	transladar(dx,dy,dz)
+	{
+		this.x=this.x+dx;
+		this.y=this.y+dy;
+		this.z=this.z+dz;
+	}
+	pespectiva()
+	{
+		this.x=Math.sqrt(2)/2*(this.x-this.y);
+		this.y=Math.sqrt(2/3)*this.z-1/Math.sqrt(6)*(this.x+this.y);
+		this.z=0;
+	}
+	rodar(thetax,thetay,thetaz,ponto)
+	{
+		this.transladar(-ponto.x,-ponto.y,-ponto.z);
+		this.x=this.x*Math.cos(theta)-this.y*Math.sin(theta);
+		this.y=this.x*Math.sin(theta)+this.y*Math.cos(theta);
+		this.transladar(ponto.x,ponto.y);
+	}
 }
 const canvas = document.getElementById("letra-I");
 const ctx=canvas.getContext("2d");
@@ -254,9 +261,7 @@ function getArestasForLetterI(x,y) {
 }
 
 const face = new Face(getArestasForLetterI(originX,originY));
-
-
-
+const solido = criaSolido(face);
 
 window.addEventListener('resize', resizeCanvas, false);
 function resizeCanvas() {
@@ -265,30 +270,11 @@ function resizeCanvas() {
 }
 resizeCanvas();
 
-const pi = 3.141592;
-const theta = pi / 100;
-
-sumTheta = 0;
-invert = 1;
-
-const loop = false;
-
+solido.pespectiva();
 setInterval(() => {
 	
-	if(sumTheta >= pi/2 + theta - 0.001) { 
-		if(!loop) return;
-		invert = - invert; 
-		sumTheta = 0; 
-	};
-
 	ctx.clearRect(0,0,canvas.width,canvas.height); 
-	face.desenhar(ctx); 
-	face.transladar(invert*5,invert*5); 
-
-	face.rodar(invert*theta);
-
-	sumTheta += theta;
-
+	solido.desenhar(ctx); 
 },25);
 
 
