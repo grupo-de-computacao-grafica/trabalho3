@@ -13,9 +13,9 @@ function criaSolido(face)
 	let len=face.arestas.length;
 	for(let i=0; i<len; i++)
 	{
-		let primeiraAresta=Aresta(face.arestas[i].vertice2,outraFace.arestas[i].vertice1);
-		let segundaAresta=Aresta(outraFace.arestas[i].vertice2,face.arestas[i].vertice1);
-		let auxFace=Face([face.arestas[i],primeiraAresta,outraFace.arestas[i],segundaAresta]);
+		let primeiraAresta=new Aresta(face.arestas[i].vertice2,outraFace.arestas[i].vertice1);
+		let segundaAresta=new Aresta(outraFace.arestas[i].vertice2,face.arestas[i].vertice1);
+		let auxFace=new Face([face.arestas[i],primeiraAresta,outraFace.arestas[i],segundaAresta]);
 		l.append(auxFace);
 	}
 	l.append(face);
@@ -116,7 +116,7 @@ class Face
 	{
 		for(i in this.arestas)
 		{
-			this.arestas[i]=Aresta(this.arestas[i].vertice2,this.arestas[i].vertice1);
+			this.arestas[i]=new Aresta(this.arestas[i].vertice2,this.arestas[i].vertice1);
 		}
 	}
 	comprimentoMenorAresta()
