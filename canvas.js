@@ -63,9 +63,19 @@ class Solido
 	{
 		this.faces=faces;
 	}
+	desenhar(ctx)
+	{
+		for(let i=0; i<this.faces.length; i++)
+		{
+			this.faces[i].desenhar(ctx);
+		}
+	}
 	pespectiva()
 	{
-		
+		for(let i=0; i<this.faces.length; i++)
+		{
+			this.faces[i].pespectiva();
+		}
 	}
 }
 
@@ -114,6 +124,13 @@ class Face
 	{
 		this.arestas=arestas;
 	}
+	pespectiva()
+	{
+		for(let i=0; i<this.arestas.length; i++)
+		{
+			this.arestas[i].pespectiva();
+		}
+	}
 	voltar()
 	{
 		for(i in this.arestas)
@@ -156,6 +173,11 @@ class Aresta{
     this.vertice1=vertice1;
     this.vertice2=vertice2;
   }
+	pespectiva()
+	{
+		this.vertice1.pespectiva();
+		this.vertice2.pespectiva();
+	}
 	comprimento()
 	{
 		let dx=this.vertice1.getX()-this.vertice2.getX();
