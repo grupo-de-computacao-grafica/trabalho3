@@ -2,7 +2,9 @@ Mp = [[Math.sqrt(2)/2,-Math.sqrt(2)/2,0],[-1/Math.sqrt(6), -1/Math.sqrt(6),Math.
 
 function copiaObj(o)
 {
-	return Object.assign({},o);
+	let aux=Object.assign({},o);
+	aux.__proto__=o.__proto__;
+	return aux;
 }
 
 function criaSolido(face)
@@ -18,10 +20,10 @@ function criaSolido(face)
 		let primeiraAresta=new Aresta(face.arestas[i].vertice2,outraFace.arestas[i].vertice1);
 		let segundaAresta=new Aresta(outraFace.arestas[i].vertice2,face.arestas[i].vertice1);
 		let auxFace=new Face([face.arestas[i],primeiraAresta,outraFace.arestas[i],segundaAresta]);
-		l.append(auxFace);
+		l.push(auxFace);
 	}
-	l.append(face);
-	l.append(outraFace);
+	l.push(face);
+	l.push(outraFace);
 	return new Solido(l);
 }
 
@@ -92,7 +94,7 @@ class Face
 	}
 	voltar()
 	{
-		for(i in this.arestas)
+		for(let i in this.arestas)
 		{
 			this.arestas[i]=new Aresta(this.arestas[i].vertice2,this.arestas[i].vertice1);
 		}
