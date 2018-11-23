@@ -1,6 +1,6 @@
 function copiaObj(o)
 {
-	return JSON.parse(JSON.stringify(o));
+	return Object.assign({},o);
 }
 
 function criaSolido(face)
