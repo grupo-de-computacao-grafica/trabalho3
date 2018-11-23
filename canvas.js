@@ -80,39 +80,6 @@ class Solido
 }
 
 
-class Vertice
-{
-	constructor(x,y,z=0)
-	{
-		this.atual=new Ponto(x,y,z);
-		this.original=new Ponto(x,y,z);
-	}
-	reset()
-	{
-		this.atual=new Ponto(this.original.x,this.original.y,this.original.z);
-	}
-	rodar(thetax,thetay,thetaz,ponto)
-	{
-		this.atual.rodar(thetax,thetay,thetaz,ponto);
-	}
-	transladar(dx,dy,dz)
-	{
-		this.atual.transladar(dx,dy,dz);
-	}
-	getX()
-	{
-		return this.atual.x;
-	}
-	getY()
-	{
-		return this.atual.y;
-	}
-	getZ()
-	{
-		return this.atual.z;
-	}
-}
-
 function min(a,b)
 {
 	return a<b?a:b;
@@ -207,6 +174,40 @@ class Aresta{
 	  
   }
 }
+
+class Vertice
+{
+	constructor(x,y,z=0)
+	{
+		this.atual=new Ponto(x,y,z);
+		this.original=new Ponto(x,y,z);
+	}
+	reset()
+	{
+		this.atual=new Ponto(this.original.x,this.original.y,this.original.z);
+	}
+	rodar(thetax,thetay,thetaz,ponto)
+	{
+		this.atual.rodar(thetax,thetay,thetaz,ponto);
+	}
+	transladar(dx,dy,dz)
+	{
+		this.atual.transladar(dx,dy,dz);
+	}
+	getX()
+	{
+		return this.atual.x;
+	}
+	getY()
+	{
+		return this.atual.y;
+	}
+	getZ()
+	{
+		return this.atual.z;
+	}
+}
+
 
 class Ponto{
   constructor(x,y,z) {
