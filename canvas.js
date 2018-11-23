@@ -12,9 +12,11 @@ function criaSolido(face)
 	
 }
 
-function calculaCentroide(l){
+function calculaCentroide(l)
+{
 	var aux=new Ponto(0,0,0);
-	for(p in l){
+	for(p in l)
+	{
 		p=l[p];
 		aux.x+=p.x;
 		aux.y+=p.y;
@@ -26,95 +28,64 @@ function calculaCentroide(l){
 	return aux;
 }
 
-class Observador{
-	constructor(ponto){
-		this.ponto=ponto;
-	}
-}
-class Camera{
-	constructor(ponto){
+class Observador
+{
+	constructor(ponto)
+	{
 		this.ponto=ponto;
 	}
 }
 
-class Solido{
-	constructor(faces){
+class Camera
+{
+	constructor(ponto)
+	{
+		this.ponto=ponto;
+	}
+}
+
+class Solido
+{
+	constructor(faces)
+	{
 		this.faces=faces;
 	}
-	rodarX(theta){
-		let l=[];
-		for(p in this.faces){
-			p=this.faces[p];
-			l=l+p.pontos();
-		}
-		//codigo abaixo irá remover duplicatas
-		l=l.filter((item,indice,array) => array.indexOf(item)==indice);
-		var centroide=calculaCentroide(l);
-		for(p in faces){
-			p=faces[p];
-			p.rodarX(theta,centroide);
-		}
+	pespectiva()
+	{
 		
-	}
-	rodarY(theta){
-				let l=[];
-		for(p in faces){
-			p=faces[p];
-			l=l+p.pontos();
-		}
-		//codigo abaixo irá remover duplicatas
-		l=l.filter((item,indice,array) => array.indexOf(item)==indice);
-		var centroide=calculaCentroide(l);
-		for(p in faces){
-			p=faces[p];
-			p.rodarY(theta,centroide);
-		}
-	}
-	rodarZ(theta){
-				let l=[];
-		for(p in faces){
-			p=faces[p];
-			l=l+p.pontos();
-		}
-		//codigo abaixo irá remover duplicatas
-		l=l.filter((item,indice,array) => array.indexOf(item)==indice);
-		var centroide=calculaCentroide(l);
-		for(p in faces){
-			p=faces[p];
-			p.rodarZ(theta,centroide);
-		}
-	}
-	transladar(dx,dy,dz){
-		for(p in faces){
-			
-		}
-	}
-	pespectiva(){
 	}
 }
 
 
-class Vertice{
-	constructor(x,y,z=0){
+class Vertice
+{
+	constructor(x,y,z=0)
+	{
 		this.atual=new Ponto(x,y,z);
 		this.original=new Ponto(x,y,z);
 	}
-	reset(){
+	reset()
+	{
 		this.atual=new Ponto(this.original.x,this.original.y,this.original.z);
 	}
-	rodar(thetax,thetay,thetaz,ponto){
+	rodar(thetax,thetay,thetaz,ponto)
+	{
 		this.atual.rodar(thetax,thetay,thetaz,ponto);
 	}
-	transladar(dx,dy,dz){
+	transladar(dx,dy,dz)
+	{
 		this.atual.transladar(dx,dy,dz);
 	}
-	getX(){
+	getX()
+	{
 		return this.atual.x;
 	}
-	getY(){
+	getY()
+	{
 		return this.atual.y;
 	}
-	getZ(){
+	getZ()
+	{
 		return this.atual.z;
 	}
 }
@@ -124,20 +95,25 @@ function min(a,b)
 	return a<b?a:b;
 }
 
-class Face{
-  constructor(arestas) {
-    this.arestas=arestas;
-  }
-  comprimentoMenorAresta(){
-	let comprimento=0;
-	for(let i=0; i< this.arestas.length; i++)
+class Face
+{
+	constructor(arestas)
 	{
-		comprimento=min(comprimento,this.arestas[i].comprimento());
+		this.arestas=arestas;
 	}
-	return comprimento;
-  }
-  estaVisivel(observador){
-  }
+	comprimentoMenorAresta()
+	{
+		let comprimento=0;
+		for(let i=0; i< this.arestas.length; i++)
+		{
+			comprimento=min(comprimento,this.arestas[i].comprimento());
+		}
+		return comprimento;
+	}
+	estaVisivel(observador)
+	{
+		
+	}
 //TODO : desenhar precisa ser revisto em 3D
   desenhar(canvas){ //desenhar vai ficar bem mais complexo
     canvas.beginPath();
