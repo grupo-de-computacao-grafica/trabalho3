@@ -11,7 +11,7 @@ function criaSolido(face)
 	outraFace.voltar();
 	let l = []
 	let len=face.arestas.length;
-	for(let i=0; i< face.arestas.length; i++)
+	for(let i=0; i<len; i++)
 	{
 		let primeiraAresta=Aresta(face.arestas[i].vertice2,outraFace.arestas[i].vertice1);
 		let segundaAresta=Aresta(outraFace.arestas[i].vertice2,face.arestas[i].vertice1);
@@ -111,6 +111,13 @@ class Face
 	constructor(arestas)
 	{
 		this.arestas=arestas;
+	}
+	voltar()
+	{
+		for(i in this.arestas)
+		{
+			this.arestas[i]=Aresta(this.arestas[i].vertice2,this.arestas[i].vertice1);
+		}
 	}
 	comprimentoMenorAresta()
 	{
