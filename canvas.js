@@ -8,8 +8,19 @@ function criaSolido(face)
 	let m=face.comprimentoMenorAresta();
 	let outraFace = copiaObj(face);
 	outraFace.transladar(0,0,m);
-	outraFace.arestas.reverse();
-	
+	outraFace.voltar();
+	let l = []
+	let len=face.arestas.length;
+	for(let i=0; i< face.arestas.length; i++)
+	{
+		let primeiraAresta=Aresta(face.arestas[i].vertice2,outraFace.arestas[i].vertice1);
+		let segundaAresta=Aresta(outraFace.arestas[i].vertice2,face.arestas[i].vertice1);
+		let auxFace=Face([face.arestas[i],primeiraAresta,outraFace.arestas[i],segundaAresta);
+		l.append(auxFace);
+	}
+	l.append(face);
+	l.append(outraFace);
+	return Solido(l);
 }
 
 function calculaCentroide(l)
