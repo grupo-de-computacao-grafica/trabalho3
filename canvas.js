@@ -8,6 +8,8 @@ function criaSolido(face)
 	let m=face.comprimentoMenorAresta();
 	let outraFace = copiaObj(face);
 	outraFace.transladar(0,0,m);
+	outraFace.arestas.reverse();
+	
 }
 
 function calculaCentroide(l){
