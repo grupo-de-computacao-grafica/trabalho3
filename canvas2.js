@@ -105,6 +105,22 @@ class Bezier
 	}
 }
 
+class Face
+{
+	constructor(arestas)
+	{
+		this.arestas=arestas;
+	}
+}
+
+class Solido
+{
+	constructor(faces)
+	{
+		this.faces=faces;
+	}
+}
+
 const canvas = document.getElementById("letra-I");
 const ctx=canvas.getContext("2d");
 
