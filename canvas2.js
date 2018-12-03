@@ -16,6 +16,23 @@ class Bezier
 				.this.fim.getX(),this.fim.getY());
 		ctx.stroke();
 	}
+	desenhar()
+	{
+		ctx.moveTo(0, 0);
+		ctx.bezierCurveTo(33, -10, 66, -10, 100, 0);
+		ctx.bezierCurveTo(110, 10, 110, 20, 100, 33);
+		ctx.bezierCurveTo(88, 40, 75, 40, 66, 33);
+		ctx.bezierCurveTo(70, 46, 70, 56, 66, 66);
+		ctx.bezierCurveTo(75, 56, 88, 56, 100, 66);
+		ctx.bezierCurveTo(110, 80, 110, 88, 100, 100);
+		ctx.bezierCurveTo(66, 110, 33, 110, 0, 100);
+		ctx.bezierCurveTo(-10, 88, -10, 80, 0, 66);
+		ctx.bezierCurveTo(12, 56, 22, 56, 33, 66);
+		ctx.bezierCurveTo(30, 54, 30, 44, 33, 33);
+		ctx.bezierCurveTo(22, 43, 11, 43, 0, 33);
+		ctx.bezierCurveTo(-10, 22, -10, 13, 0, 0);
+		ctx.stroke();
+	}
 }
 
 class Vertice
