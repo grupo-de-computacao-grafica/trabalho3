@@ -33,17 +33,13 @@ class Quaternion
 	//precisa que ponto implemente produto escalar e vetorial
 	multiply()
 	{
-		acumulador=this;
+		acumulador=new Quaternion(this.x,this.y,this.z,this.w);
 		for(let i=0; i<arguments.length; i++)
 		{
-			p0=acumulador.x;
-			p=new Ponto(acumulador.y,acumulador.z,acumulador.w);
-			q0=arguments[i].x;
-			q=new Ponto(arguments[i].y,arguments[i].z,arguments[i].w);
-			acumulador.x=
-			acumulador.y=
-			acumulador.z=
-			acumulador.w=
+			acumulador.x=acumulador.x*arguments[i].x-acumulador.y*arguments[i].y-acumulador.z*arguments[i].z-acumulador.w*arguments[i].w;
+			acumulador.y=acumulador.x*arguments[i].y+arguments[i].x*acumulador.y+acumulador.z*arguments[i].w-acumulador.w*arguments[i].z;
+			acumulador.z=acumulador.x*arguments[i].z+arguments[i].x*acumulador.z+acumulador.w*arguments[i].y-acumulador.y*arguments[i].w;
+			acumulador.w=acumulador.x*arguments[i].w+arguments[i].x*acumulador.w+acumulador.y*arguments[i].z-acumulador.z*arguments[i].y;
 		}
 		return acumulador;
 	}
