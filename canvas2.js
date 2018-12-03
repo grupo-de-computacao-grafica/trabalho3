@@ -1,22 +1,32 @@
-class Bezier
+class Ponto
 {
-	//parametros são vertices
-	constructor(inicio,meio1,meio2,fim)
+	constructor(x,y,z)
 	{
-		this.inicio=inicio;
-		this.meio1=meio1;
-		this.meio2=meio2;
-		this.fim=fim;
+		this.x=x;
+		this.y=y;
+		this.z=z;
 	}
-	desenhar(ctx)
+	transladar(dx,dy,dz)
 	{
-		ctx.moveTo(this.inicio.getX(),this.inicio.getY());
-		ctx.bezierCurveTo(this.meio1.getX(),this.meio1.getY()
-				,this.meio2.getX(),this.meio2.getY()
-				.this.fim.getX(),this.fim.getY());
-		ctx.stroke();
+		this.x=this.x+dx;
+		this.y=this.y+dy;
+		this.z=this.z+dz;
+	}
+	pespectiva()
+	{
+		this.x=Math.sqrt(2)/2*(this.x-this.y);
+		this.y=Math.sqrt(2/3)*this.z-1/Math.sqrt(6)*(this.x+this.y);
+		this.z=0;
+	}
+	rodar(thetax,thetay,thetaz,ponto)
+	{
+		this.transladar(-ponto.x,-ponto.y,-ponto.z);
+		this.x=this.x*Math.cos(theta)-this.y*Math.sin(theta);
+		this.y=this.x*Math.sin(theta)+this.y*Math.cos(theta);
+		this.transladar(ponto.x,ponto.y);
 	}
 }
+
 
 class Vertice
 {
@@ -54,35 +64,27 @@ class Vertice
 		return this.atual.z;
 	}
 }
-
-
-class Ponto
+class Bezier
 {
-	constructor(x,y,z)
+	//parametros são vertices
+	constructor(inicio,meio1,meio2,fim)
 	{
-		this.x=x;
-		this.y=y;
-		this.z=z;
+		this.inicio=inicio;
+		this.meio1=meio1;
+		this.meio2=meio2;
+		this.fim=fim;
 	}
-	transladar(dx,dy,dz)
+	desenhar(ctx)
 	{
-		this.x=this.x+dx;
-		this.y=this.y+dy;
-		this.z=this.z+dz;
-	}
-	pespectiva()
-	{
-		this.x=Math.sqrt(2)/2*(this.x-this.y);
-		this.y=Math.sqrt(2/3)*this.z-1/Math.sqrt(6)*(this.x+this.y);
-		this.z=0;
-	}
-	rodar(thetax,thetay,thetaz,ponto)
-	{
-		this.transladar(-ponto.x,-ponto.y,-ponto.z);
-		this.x=this.x*Math.cos(theta)-this.y*Math.sin(theta);
-		this.y=this.x*Math.sin(theta)+this.y*Math.cos(theta);
-		this.transladar(ponto.x,ponto.y);
+		ctx.moveTo(this.inicio.getX(),this.inicio.getY());
+		ctx.bezierCurveTo(this.meio1.getX(),this.meio1.getY(),this.meio2.getX(),this.meio2.getY(),this.fim.getX(),this.fim.getY());
+		ctx.stroke();
 	}
 }
+
 const canvas = document.getElementById("letra-I");
 const ctx=canvas.getContext("2d");
+
+bez=new Bezier(new Vertice(0,0),new Vertice(33,10),new Vertice(66,10),new Vertice(100,100));
+ctx.beginPath();
+bez.desenhar(ctx);
