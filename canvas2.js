@@ -1,3 +1,19 @@
+class Quaternion
+{
+	constructor(theta,ponto)
+	{
+		this.theta=theta;
+		this.ponto=ponto;
+	}
+	//rodar o parametro em torno do this.ponto de um angulo theta
+	rodar(ponto)
+	{
+	}
+	
+	
+	
+}
+
 class Ponto
 {
 	constructor(x,y,z)
@@ -79,6 +95,13 @@ class Bezier
 		ctx.moveTo(this.inicio.getX(),this.inicio.getY());
 		ctx.bezierCurveTo(this.meio1.getX(),this.meio1.getY(),this.meio2.getX(),this.meio2.getY(),this.fim.getX(),this.fim.getY());
 		ctx.stroke();
+	}
+	rodar(q)
+	{
+		this.inicio=q.rodar(this.inicio);
+		this.meio1=q.rodar(this.meio1);
+		this.meio2=q.rodar(this.meio2);
+		this.fim=q.rodar(this.fim);
 	}
 }
 
