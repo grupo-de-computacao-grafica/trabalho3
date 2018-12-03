@@ -1,8 +1,20 @@
 class Bezier
 {
-	constructor(x,y,z)
+	//parametros são vertices
+	constructor(inicio,meio1,meio2,fim)
 	{
-		
+		this.inicio=inicio;
+		this.meio1=meio1;
+		this.meio2=meio2;
+		this.fim=fim;
+	}
+	desenhar(ctx)
+	{
+		ctx.moveTo(this.inicio.getX(),this.inicio.getY());
+		ctx.bezierCurveTo(this.meio1.getX(),this.meio1.getY()
+				,this.meio2.getX(),this.meio2.getY()
+				.this.fim.getX(),this.fim.getY());
+		ctx.stroke();
 	}
 }
 
