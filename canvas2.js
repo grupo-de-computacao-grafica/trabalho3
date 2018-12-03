@@ -1,3 +1,11 @@
+class Bezier
+{
+	constructor(x,y,z)
+	{
+		
+	}
+}
+
 class Vertice
 {
 	constructor(x,y,z=0)
