@@ -1,15 +1,52 @@
 class Quaternion
 {
-	constructor(theta,ponto)
+	constructor()
 	{
-		this.theta=theta;
-		this.ponto=ponto;
+		if(arguments.length == 4)
+		{
+			_constructorAlgebrico.apply(null,arguments);
+		}
+		_constructorRotacao.apply(null,arguments);
+	}
+	_constructorAlgebrico(x,y,z,w)
+	{
+		this.x=x;
+		this.y=y;
+		this.z=z;
+		this.w=w;
+	}
+	_constructorRotacao(theta,ponto)
+	{
+		this.x=Math.cos(theta/2);
+		si=Math.sin(theta/2);
+		this.y=si*ponto.x;
+		this.z=si*ponto.y;
+		this.w=si*ponto.z;
 	}
 	//rodar o parametro em torno do this.ponto de um angulo theta
 	rodar(ponto)
 	{
+		pontoExtendido=new Quaternion(0,ponto.x,ponto.y,ponto.z);
+		conjugadoP=new Quaternion(this.x,-this.y,-this.z,-this.w);
+		return this.multiply(pontoExtendido,conjugadoP);
 	}
-	
+	//precisa que ponto implemente produto escalar e vetorial
+	multiply()
+	{
+		acumulador=this;
+		for(let i=0; i<arguments.length; i++)
+		{
+			p0=acumulador.x;
+			p=new Ponto(acumulador.y,acumulador.z,acumulador.w);
+			q0=arguments[i].x;
+			q=new Ponto(arguments[i].y,arguments[i].z,arguments[i].w);
+			acumulador.x=
+			acumulador.y=
+			acumulador.z=
+			acumulador.w=
+		}
+		return acumulador;
+	}
 	
 	
 }
