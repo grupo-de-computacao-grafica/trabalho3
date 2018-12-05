@@ -140,9 +140,17 @@ class Bezier
 
 class Face
 {
-	constructor(arestas)
+	constructor(bezier)
 	{
-		this.arestas=arestas;
+		this.bezier=bezier;
+	}
+	desenhar(ctx)
+	{
+		ctx.beginPath();
+		for(let i = 0; i < this.bezier.length; i++)
+		{
+			this.bezier[i].desenhar(ctx);
+		}
 	}
 }
 
@@ -157,6 +165,30 @@ class Solido
 const canvas = document.getElementById("letra-I");
 const ctx=canvas.getContext("2d");
 
-bez=new Bezier(new Vertice(0,0),new Vertice(33,10),new Vertice(66,10),new Vertice(100,100));
+var originX = window.innerWidth/2 - 100;
+var originY = window.innerHeight/2 - 100;
+
+function getCurvasForLetterI(x,y) {
+	const positions = [
+		[[0,0], [33, -10], [66, -10], [100, 0]],
+		[[0,0], [110, 10], [110, 20], [100, 33]],
+		[[0,0], [88, 40], [75, 40], [66, 33]],
+		[[0,0], [70, 46], [70, 56], [66, 66]],
+		[[0,0], [75, 56], [88, 56], [100, 66]],
+		[[0,0], [110, 80], [110, 88], [100, 100]],
+		[[0,0], [66, 110], [33, 110], [0, 100]],
+		[[0,0], [-10, 88], [-10, 80], [0, 66]],
+		[[0,0], [12, 56], [22, 56], [33, 66]],
+		[[0,0], [30, 54], [30, 44], [33, 33]],
+		[[0,0], [22, 43], [11, 43], [0, 33]],
+		[[0,0], [-10, 22], [-10, 13], [0, 0]]
+	];
+	return positions.map(pt => new Bezier(new Vertice(x + pt[0][0], y + pt[0][1]), new Vertice(x + pt[1][0], y + pt[1][1]), new Vertice(x + pt[2][0], y + pt[2][1]), new Vertice(x + pt[3][0], y + pt[3][1])));
+
+}
+
+const face = new Face(getCurvasForLetterI(originX,originY));
+
+//bez=new Bezier(new Vertice(0,0),new Vertice(33,10),new Vertice(66,10),new Vertice(100,100));
 ctx.beginPath();
-bez.desenhar(ctx);
+face.desenhar(ctx);
