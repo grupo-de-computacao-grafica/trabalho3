@@ -22,7 +22,10 @@ class Quaternion
 		{
 			this._constructorAlgebrico.apply(this,arguments);
 		}
-		this._constructorRotacao.apply(this,arguments);
+		else
+		{
+			this._constructorRotacao.apply(this,arguments);
+		}
 	}
 	
 	//rodar o parametro em torno do this.ponto de um angulo theta
@@ -30,7 +33,8 @@ class Quaternion
 	{
 		var pontoExtendido=new Quaternion(0,ponto.x,ponto.y,ponto.z);
 		var conjugadoP=new Quaternion(this.x,-this.y,-this.z,-this.w);
-		return this.multiply(pontoExtendido,conjugadoP);
+		//return this.multiply(pontoExtendido,conjugadoP);
+		return conjugadoP.multiply(pontoExtendido,this);
 	}
 	//precisa que ponto implemente produto escalar e vetorial
 	multiply()
@@ -71,7 +75,9 @@ class Ponto
 	}
 	rodar(q)
 	{
-		var aux=q.rodar(new Ponto(this.x,this.y,this.z));
+		var copia=new Ponto(this.x,this.y,this.z);
+		var aux=q.rodar(copia);
+		
 		this.x=aux.y;
 		this.y=aux.z;
 		this.z=aux.w;
@@ -149,6 +155,7 @@ class Bezier
 
 class Face
 {
+	//funcionando 100%
 	constructor(bezier)
 	{
 		this.bezier=bezier;
@@ -236,6 +243,7 @@ function meuDeepCopyBezier(b)
 	return new Bezier(novoInicio,novoMeio1,novoMeio2,novoFim);
 }
 
+
 function meuDeepCopyFace(f)
 {
 	var l=[];
@@ -246,35 +254,35 @@ function meuDeepCopyFace(f)
 	return new Face(l);
 }
 
+
 function faceExtrude(face)
 {
 	var newFace = meuDeepCopyFace(face);
 	newFace.transladar(0,0,m);
-	newFace.bezier;
-	var facesLaterais = []
-	for (i in face.bezier)
+	var facesLaterais = [face,newFace];
+	for (var i in face.bezier)
 	{
 		var arestaBaixo=face.bezier[i];
 		var arestaCima=newFace.bezier[i];
 		
-		var verticeInicial=new Vertice(arestaCima.inicio.getX(),arestaCima.inicio.getY(),arestaCima.inicio.getZ());
-		var verticeFinal=new Vertice(arestaBaixo.inicio.getX(),arestaBaixo.inicio.getY(),arestaBaixo.inicio.getZ());
+		var verticeInicial=meuDeepCopyVertice(arestaCima.inicio);
+		var verticeFinal=meuDeepCopyVertice(arestaBaixo.inicio);
 		
-		var verticeMeio1=verticeInicial;
-		var verticeMeio2=verticeFinal;
+		var verticeMeio1=meuDeepCopyVertice(verticeInicial);
+		var verticeMeio2=meuDeepCopyVertice(verticeFinal);
 		
 		var arestaInicio=new Bezier(verticeInicial,verticeMeio1,verticeMeio2,verticeFinal);
 		
-		var verticeInicial2=new Vertice(arestaCima.fim.getX(),arestaCima.fim.getY(),arestaCima.fim.getZ());
-		var verticeFinal2=new Vertice(arestaBaixo.fim.getX(),arestaBaixo.fim.getY(),arestaBaixo.fim.getZ());
+		var verticeInicial2=meuDeepCopyVertice(arestaCima.fim);
+		var verticeFinal2=meuDeepCopyVertice(arestaBaixo.fim);
 		
-		var verticeMeio12=verticeInicial2;
-		var verticeMeio22=verticeFinal2;
+		var verticeMeio12=meuDeepCopyVertice(verticeInicial2);
+		var verticeMeio22=meuDeepCopyVertice(verticeFinal2);
 		
 		var arestaFim=new Bezier(verticeInicial2,verticeMeio12,verticeMeio22,verticeFinal2);
 		
-		
-		facesLaterais.push(new Face([arestaBaixo,arestaCima,arestaInicio,arestaFim]));
+		var estouCansado=new Face([arestaBaixo,arestaCima,arestaInicio,arestaFim]);
+		facesLaterais.push(estouCansado);
 		
 		
 	}
@@ -289,6 +297,8 @@ const ctx=canvas.getContext("2d");
 var originX = 100;//window.innerWidth/2 - 100;
 var originY = 100;//window.innerHeight/2 - 100;
 
+
+//funcionando 100%
 function getCurvasForLetterI(x,y,z=0) {
 	const positions = [
 		[[0, 0,0], [33, -10,0], [66, -10,0], [100, 0,0]],
@@ -307,19 +317,25 @@ function getCurvasForLetterI(x,y,z=0) {
 	return positions.map(pt => new Bezier(new Vertice(x + pt[0][0], y + pt[0][1],z + pt[0][2]), new Vertice(x + pt[1][0], y + pt[1][1],z + pt[1][2]), new Vertice(x + pt[2][0], y + pt[2][1],z + pt[2][2]), new Vertice(x + pt[3][0], y + pt[3][1],z + pt[3][2])));
 
 }
-
+//funcionando 100%
 var face = new Face(getCurvasForLetterI(originX,originY));
-var solido = faceExtrude(face);
-//bez=new Bezier(new Vertice(0,0),new Vertice(33,10),new Vertice(66,10),new Vertice(100,100));
-ctx.beginPath();
-//face.desenhar(ctx);
+var newFace = new Face(getCurvasForLetterI(originX,originY,m));
 
+
+
+//você ainda não.
+var solido = faceExtrude(face);
+console.log(solido);
+
+ctx.beginPath();
+
+//funcionando 100%
 solido.desenhar(ctx);
 
-solido.transladar(100,100,100);
+//solido.transladar(100,100,100);
 
 
-var q=new Quaternion(Math.pi/2,new Ponto(300,300,300));
+var q=new Quaternion(Math.PI/6,new Ponto(0,0,1));
 solido.rodar(q);
 solido.desenhar(ctx);
 
