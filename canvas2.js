@@ -1,13 +1,5 @@
 class Quaternion
 {
-	constructor()
-	{
-		if(arguments.length == 4)
-		{
-			_constructorAlgebrico.apply(null,arguments);
-		}
-		_constructorRotacao.apply(null,arguments);
-	}
 	_constructorAlgebrico(x,y,z,w)
 	{
 		this.x=x;
@@ -18,22 +10,32 @@ class Quaternion
 	_constructorRotacao(theta,ponto)
 	{
 		this.x=Math.cos(theta/2);
-		si=Math.sin(theta/2);
+		var si=Math.sin(theta/2);
 		this.y=si*ponto.x;
 		this.z=si*ponto.y;
 		this.w=si*ponto.z;
 	}
+	
+	constructor()
+	{
+		if(arguments.length == 4)
+		{
+			this._constructorAlgebrico.apply(this,arguments);
+		}
+		this._constructorRotacao.apply(this,arguments);
+	}
+	
 	//rodar o parametro em torno do this.ponto de um angulo theta
 	rodar(ponto)
 	{
-		pontoExtendido=new Quaternion(0,ponto.x,ponto.y,ponto.z);
-		conjugadoP=new Quaternion(this.x,-this.y,-this.z,-this.w);
+		var pontoExtendido=new Quaternion(0,ponto.x,ponto.y,ponto.z);
+		var conjugadoP=new Quaternion(this.x,-this.y,-this.z,-this.w);
 		return this.multiply(pontoExtendido,conjugadoP);
 	}
 	//precisa que ponto implemente produto escalar e vetorial
 	multiply()
 	{
-		acumulador=new Quaternion(this.x,this.y,this.z,this.w);
+		var acumulador=new Quaternion(this.x,this.y,this.z,this.w);
 		for(let i=0; i<arguments.length; i++)
 		{
 			acumulador.x=acumulador.x*arguments[i].x-acumulador.y*arguments[i].y-acumulador.z*arguments[i].z-acumulador.w*arguments[i].w;
@@ -67,12 +69,12 @@ class Ponto
 		this.y=Math.sqrt(2/3)*this.z-1/Math.sqrt(6)*(this.x+this.y);
 		this.z=0;
 	}
-	rodar(thetax,thetay,thetaz,ponto)
+	rodar(q)
 	{
-		this.transladar(-ponto.x,-ponto.y,-ponto.z);
-		this.x=this.x*Math.cos(theta)-this.y*Math.sin(theta);
-		this.y=this.x*Math.sin(theta)+this.y*Math.cos(theta);
-		this.transladar(ponto.x,ponto.y);
+		var aux=q.rodar(new Ponto(this.x,this.y,this.z));
+		this.x=aux.y;
+		this.y=aux.z;
+		this.z=aux.w;
 	}
 }
 
@@ -92,9 +94,9 @@ class Vertice
 	{
 		this.atual=new Ponto(this.original.x,this.original.y,this.original.z);
 	}
-	rodar(thetax,thetay,thetaz,ponto)
+	rodar(q)
 	{
-		this.atual.rodar(thetax,thetay,thetaz,ponto);
+		this.atual.rodar(q);
 	}
 	transladar(dx,dy,dz)
 	{
@@ -131,10 +133,17 @@ class Bezier
 	}
 	rodar(q)
 	{
-		this.inicio=q.rodar(this.inicio);
-		this.meio1=q.rodar(this.meio1);
-		this.meio2=q.rodar(this.meio2);
-		this.fim=q.rodar(this.fim);
+		this.inicio.rodar(q);
+		this.meio1.rodar(q);
+		this.meio2.rodar(q);
+		this.fim.rodar(q);
+	}
+	transladar(x,y,z)
+	{
+		this.inicio.transladar(x,y,z);
+		this.meio1.transladar(x,y,z);
+		this.meio2.transladar(x,y,z);
+		this.fim.transladar(x,y,z);
 	}
 }
 
@@ -152,6 +161,20 @@ class Face
 			this.bezier[i].desenhar(ctx);
 		}
 	}
+	transladar(x,y,z)
+	{
+		for(i in this.bezier)
+		{
+			this.bezier[i].transladar(x,y,z);
+		}
+	}
+	rodar(q)
+	{
+		for(i in this.bezier)
+		{
+			this.bezier[i].rodar(q);
+		}		
+	}
 }
 
 class Solido
@@ -160,35 +183,147 @@ class Solido
 	{
 		this.faces=faces;
 	}
+	transladar(x,y,z)
+	{
+		for(i in this.faces)
+		{
+			this.faces[i].transladar(x,y,z);
+		}
+	}
+	rodar(q)
+	{
+		for(i in this.faces)
+		{
+			this.faces[i].rodar(q);
+		}
+	}
+	desenhar(ctx)
+	{
+		for(i in this.faces)
+		{
+			this.faces[i].desenhar(ctx);
+		}		
+	}
 }
+const m = 10;
+
+
+function meuDeepCopyVertice(v)
+{
+	var p=new Ponto(0,0,0);
+	p.x=v.atual.x;
+	p.y=v.atual.y;
+	p.z=v.atual.z;
+	
+	var p2=new Ponto(0,0,0);
+	p2.x=v.original.x;
+	p2.y=v.original.y;
+	p2.z=v.original.z;
+	
+	var v1 = new Vertice(0,0,0);
+	v1.atual=p;
+	v1.original=p2;
+	return v1;
+}
+
+function meuDeepCopyBezier(b)
+{
+	var novoInicio=meuDeepCopyVertice(b.inicio);
+	var novoMeio1=meuDeepCopyVertice(b.meio1);
+	var novoMeio2=meuDeepCopyVertice(b.meio2);
+	var novoFim=meuDeepCopyVertice(b.fim);
+	
+	return new Bezier(novoInicio,novoMeio1,novoMeio2,novoFim);
+}
+
+function meuDeepCopyFace(f)
+{
+	var l=[];
+	for (i in f.bezier)
+	{
+		l.push(meuDeepCopyBezier(f.bezier[i]));
+	}
+	return new Face(l);
+}
+
+function faceExtrude(face)
+{
+	var newFace = meuDeepCopyFace(face);
+	newFace.transladar(0,0,m);
+	newFace.bezier;
+	var facesLaterais = []
+	for (i in face.bezier)
+	{
+		var arestaBaixo=face.bezier[i];
+		var arestaCima=newFace.bezier[i];
+		
+		var verticeInicial=new Vertice(arestaCima.inicio.getX(),arestaCima.inicio.getY(),arestaCima.inicio.getZ());
+		var verticeFinal=new Vertice(arestaBaixo.inicio.getX(),arestaBaixo.inicio.getY(),arestaBaixo.inicio.getZ());
+		
+		var verticeMeio1=verticeInicial;
+		var verticeMeio2=verticeFinal;
+		
+		var arestaInicio=new Bezier(verticeInicial,verticeMeio1,verticeMeio2,verticeFinal);
+		
+		var verticeInicial2=new Vertice(arestaCima.fim.getX(),arestaCima.fim.getY(),arestaCima.fim.getZ());
+		var verticeFinal2=new Vertice(arestaBaixo.fim.getX(),arestaBaixo.fim.getY(),arestaBaixo.fim.getZ());
+		
+		var verticeMeio12=verticeInicial2;
+		var verticeMeio22=verticeFinal2;
+		
+		var arestaFim=new Bezier(verticeInicial2,verticeMeio12,verticeMeio22,verticeFinal2);
+		
+		
+		facesLaterais.push(new Face([arestaBaixo,arestaCima,arestaInicio,arestaFim]));
+		
+		
+	}
+	return new Solido(facesLaterais);
+	
+}
+
 
 const canvas = document.getElementById("letra-I");
 const ctx=canvas.getContext("2d");
 
-var originX = window.innerWidth/2 - 100;
-var originY = window.innerHeight/2 - 100;
+var originX = 100;//window.innerWidth/2 - 100;
+var originY = 100;//window.innerHeight/2 - 100;
 
-function getCurvasForLetterI(x,y) {
+function getCurvasForLetterI(x,y,z=0) {
 	const positions = [
-		[[0, 0], [33, -10], [66, -10], [100, 0]],
-		[[100, 0], [110, 10], [110, 20], [100, 33]],
-		[[100, 33], [88, 40], [75, 40], [66, 33]],
-		[[66, 33], [70, 46], [70, 56], [66, 66]],
-		[[66, 66], [75, 56], [88, 56], [100, 66]],
-		[[100, 66], [110, 80], [110, 88], [100, 100]],
-		[[100, 100], [66, 110], [33, 110], [0, 100]],
-		[[0, 100], [-10, 88], [-10, 80], [0, 66]],
-		[[0, 66], [12, 56], [22, 56], [33, 66]],
-		[[33, 66], [30, 54], [30, 44], [33, 33]],
-		[[33, 33], [22, 43], [11, 43], [0, 33]],
-		[[0, 33], [-10, 22], [-10, 13], [0, 0]]
+		[[0, 0,0], [33, -10,0], [66, -10,0], [100, 0,0]],
+		[[100, 0,0], [110, 10,0], [110, 20,0], [100, 33,0]],
+		[[100, 33,0], [88, 40,0], [75, 40,0], [66, 33,0]],
+		[[66, 33,0], [70, 46,0], [70, 56,0], [66, 66,0]],
+		[[66, 66,0], [75, 56,0], [88, 56,0], [100, 66,0]],
+		[[100, 66,0], [110, 80,0], [110, 88,0], [100, 100,0]],
+		[[100, 100,0], [66, 110,0], [33, 110,0], [0, 100,0]],
+		[[0, 100,0], [-10, 88,0], [-10, 80,0], [0, 66,0]],
+		[[0, 66,0], [12, 56,0], [22, 56,0], [33, 66,0]],
+		[[33, 66,0], [30, 54,0], [30, 44,0], [33, 33,0]],
+		[[33, 33,0], [22, 43,0], [11, 43,0], [0, 33,0]],
+		[[0, 33,0], [-10, 22,0], [-10, 13,0], [0, 0,0]]
 	];
-	return positions.map(pt => new Bezier(new Vertice(x + pt[0][0], y + pt[0][1]), new Vertice(x + pt[1][0], y + pt[1][1]), new Vertice(x + pt[2][0], y + pt[2][1]), new Vertice(x + pt[3][0], y + pt[3][1])));
+	return positions.map(pt => new Bezier(new Vertice(x + pt[0][0], y + pt[0][1],z + pt[0][2]), new Vertice(x + pt[1][0], y + pt[1][1],z + pt[1][2]), new Vertice(x + pt[2][0], y + pt[2][1],z + pt[2][2]), new Vertice(x + pt[3][0], y + pt[3][1],z + pt[3][2])));
 
 }
 
-const face = new Face(getCurvasForLetterI(originX,originY));
-
+var face = new Face(getCurvasForLetterI(originX,originY));
+var solido = faceExtrude(face);
 //bez=new Bezier(new Vertice(0,0),new Vertice(33,10),new Vertice(66,10),new Vertice(100,100));
 ctx.beginPath();
-face.desenhar(ctx);
+//face.desenhar(ctx);
+
+solido.desenhar(ctx);
+
+solido.transladar(100,100,100);
+
+
+var q=new Quaternion(Math.pi/2,new Ponto(300,300,300));
+solido.rodar(q);
+solido.desenhar(ctx);
+
+
+
+
+
