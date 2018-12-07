@@ -367,5 +367,12 @@ solido.desenhar(ctx);
 
 
 
+setTimeout(() =>
+	   {
+	//limpar canvas
+	//rodar solido
+	//desenhar solido
+},/*algum tempinho legal*/);
+
 
 
