@@ -346,7 +346,7 @@ function getCurvasForLetterI(x,y,z=0) {
 }
 //funcionando 100%
 var face = new Face(getCurvasForLetterI(originX,originY));
-var newFace = new Face(getCurvasForLetterI(originX,originY,m));
+//var newFace = new Face(getCurvasForLetterI(originX,originY,m));
 
 
 
@@ -362,17 +362,15 @@ solido.desenhar(ctx);
 
 
 var q=new Quaternion(Math.PI/6,new Ponto(0,0,1));
-solido.rodar(q);
-solido.desenhar(ctx);
+//solido.rodar(q);
+//solido.desenhar(ctx);
 
 
 
-setTimeout(() =>
-	   {
+//setTimeout(() =>
+	//   {
 	//limpar canvas
 	//rodar solido
 	//desenhar solido
-},/*algum tempinho legal*/);
-
-
+//},/*algum tempinho legal*/);
 
