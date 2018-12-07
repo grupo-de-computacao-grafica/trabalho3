@@ -80,6 +80,22 @@ class Quaternion
 	
 }
 
+function calculaCentroide(l)
+{
+	var aux=new Ponto(0,0,0);
+	for(p in l)
+	{
+		p=l[p];
+		aux.x+=p.x;
+		aux.y+=p.y;
+		aux.z+=p.z;
+	}
+	aux.x/=l.length;
+	aux.y/=l.length;
+	aux.z/=l.length;
+	return aux;
+}
+
 class Ponto
 {
 	constructor(x,y,z)
@@ -373,7 +389,6 @@ var q=new Quaternion(Math.PI/6,new Ponto(0,0,1));
 	//rodar solido
 	//desenhar solido
 //},/*algum tempinho legal*/);
-
 
 
 
