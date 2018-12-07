@@ -34,7 +34,8 @@ class Quaternion
 		var pontoExtendido=new Quaternion(0,ponto.x,ponto.y,ponto.z);
 		var conjugadoP=new Quaternion(this.x,-this.y,-this.z,-this.w);
 		console.log(conjugadoP);
-		return this.multiply(pontoExtendido,conjugadoP);
+		var m = this.multiply(pontoExtendido,conjugadoP);
+		return new Ponto(m.y,m.z,m.w);
 	}
 	//precisa que ponto implemente produto escalar e vetorial
 	multiply(a,b)
