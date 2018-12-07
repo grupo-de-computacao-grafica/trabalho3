@@ -83,17 +83,18 @@ class Quaternion
 function calculaCentroide(l)
 {
 	var aux=new Ponto(0,0,0);
-	for(p in l)
+	for(f in l.faces)
 	{
-		p=l[p];
-		aux.x+=p.x;
-		aux.y+=p.y;
-		aux.z+=p.z;
+		for (b in l.faces[f].bezier){
+			aux.x+=(l.faces[f].bezier[b].fim.atual.x - l.faces[f].bezier[b].inicio.atual.x);
+			aux.y+=(l.faces[f].bezier[b].fim.atual.y - l.faces[f].bezier[b].inicio.atual.y);
+			aux.z+=(l.faces[f].bezier[b].fim.atual.z - l.faces[f].bezier[b].inicio.atual.z);
+		}
 	}
-	aux.x/=l.length;
-	aux.y/=l.length;
-	aux.z/=l.length;
-	return aux;
+	aux.x/=f.length;
+	aux.y/=f.length;
+	aux.z/=f.length;
+	return aux;	
 }
 
 class Ponto
@@ -383,16 +384,12 @@ var q=new Quaternion(Math.PI/6,new Ponto(0,0,1));
 
 
 
-setTimeout(() =>
-   {
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-	centroide = solido.calculaCentroide();
-	solido.transladar(centroide.x,centroide.y,centroide.z);
-	solido.rodar(q);
-	solido.transladar(-centroide.x,-centroide.y,-centroide.z);
-	ctx.beginPath();
-	solido.desenhar(ctx);
-},50);
+//setTimeout(() =>
+	//   {
+	//limpar canvas
+	//rodar solido
+	//desenhar solido
+//},/*algum tempinho legal*/);
 
 
 
@@ -450,3 +447,5 @@ for(i in solido.faces)
         }
     }
 }
+
+
