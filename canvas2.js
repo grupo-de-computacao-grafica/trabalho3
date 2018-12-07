@@ -383,12 +383,15 @@ var q=new Quaternion(Math.PI/6,new Ponto(0,0,1));
 
 
 
-//setTimeout(() =>
-	//   {
-	//limpar canvas
-	//rodar solido
-	//desenhar solido
-//},/*algum tempinho legal*/);
+setTimeout(() =>
+   {
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+	centroide = solido.calculaCentroide();
+	solido.transladar(centroide.x,centroide.y,centroide.z);
+	solido.rodar(q);
+	solido.transladar(-centroide.x,-centroide.y,-centroide.z);
+	solido.desenhar(ctx);
+},50);
 
 
 
