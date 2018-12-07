@@ -82,18 +82,20 @@ class Quaternion
 
 function calculaCentroide(l)
 {
+	var total=0
 	var aux=new Ponto(0,0,0);
 	for(f in l.faces)
 	{
 		for (b in l.faces[f].bezier){
-			aux.x+=(l.faces[f].bezier[b].fim.atual.x - l.faces[f].bezier[b].inicio.atual.x);
-			aux.y+=(l.faces[f].bezier[b].fim.atual.y - l.faces[f].bezier[b].inicio.atual.y);
-			aux.z+=(l.faces[f].bezier[b].fim.atual.z - l.faces[f].bezier[b].inicio.atual.z);
+			aux.x+=l.faces[f].bezier[b].fim.atual.x;
+			aux.y+=l.faces[f].bezier[b].fim.atual.y;
+			aux.z+=l.faces[f].bezier[b].fim.atual.z;
+			total+=1;
 		}
 	}
-	aux.x/=f.length;
-	aux.y/=f.length;
-	aux.z/=f.length;
+	aux.x/=total;
+	aux.y/=total;
+	aux.z/=total;
 	return aux;	
 }
 
