@@ -374,3 +374,60 @@ var q=new Quaternion(Math.PI/6,new Ponto(0,0,1));
 	//desenhar solido
 //},/*algum tempinho legal*/);
 
+
+
+
+for(i in solido.faces)
+{
+    for (j in solido.faces[i].bezier)
+    {
+        if(isNaN(solido.faces[i].bezier[j].inicio.getX()) ||
+           isNaN(solido.faces[i].bezier[j].inicio.getY()) ||
+           isNaN(solido.faces[i].bezier[j].inicio.getZ()))
+        {
+            alert("merda na face " + i + " e bezier " + j + " no inicio");
+        }
+    }
+}
+
+for(i in solido.faces)
+{
+    for (j in solido.faces[i].bezier)
+    {
+        if(isNaN(solido.faces[i].bezier[j].fim.getX()) ||
+           isNaN(solido.faces[i].bezier[j].fim.getY()) ||
+           isNaN(solido.faces[i].bezier[j].fim.getZ()))
+        {
+            alert("merda na face " + i + " e bezier " + j + " no fim");
+        }
+    }
+}
+
+
+
+for(i in solido.faces)
+{
+    for (j in solido.faces[i].bezier)
+    {
+        if(isNaN(solido.faces[i].bezier[j].meio1.getX()) ||
+           isNaN(solido.faces[i].bezier[j].meio1.getY()) ||
+           isNaN(solido.faces[i].bezier[j].meio1.getZ()))
+        {
+            alert("merda na face " + i + " e bezier " + j + " no meio1");
+        }
+    }
+}
+
+
+for(i in solido.faces)
+{
+    for (j in solido.faces[i].bezier)
+    {
+        if(isNaN(solido.faces[i].bezier[j].meio2.getX()) ||
+           isNaN(solido.faces[i].bezier[j].meio2.getY()) ||
+           isNaN(solido.faces[i].bezier[j].meio2.getZ()))
+        {
+            alert("merda na face " + i + " e bezier " + j + " no meio2");
+        }
+    }
+}
