@@ -390,6 +390,7 @@ setTimeout(() =>
 	solido.transladar(centroide.x,centroide.y,centroide.z);
 	solido.rodar(q);
 	solido.transladar(-centroide.x,-centroide.y,-centroide.z);
+	ctx.beginPath();
 	solido.desenhar(ctx);
 },50);
 
