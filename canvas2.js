@@ -33,22 +33,47 @@ class Quaternion
 	{
 		var pontoExtendido=new Quaternion(0,ponto.x,ponto.y,ponto.z);
 		var conjugadoP=new Quaternion(this.x,-this.y,-this.z,-this.w);
+		console.log(conjugadoP);
 		return this.multiply(pontoExtendido,conjugadoP);
 	}
 	//precisa que ponto implemente produto escalar e vetorial
 	multiply(a,b)
 	{
 		var acumulador=new Quaternion(this.x,this.y,this.z,this.w);
-		acumulador.x=acumulador.x*arguments[0].x-acumulador.y*arguments[0].y-acumulador.z*arguments[0].z-acumulador.w*arguments[0].w;
-		acumulador.y=acumulador.x*arguments[0].y+arguments[0].x*acumulador.y+acumulador.z*arguments[0].w-acumulador.w*arguments[0].z;
-		acumulador.z=acumulador.x*arguments[0].z+arguments[0].x*acumulador.z+acumulador.w*arguments[0].y-acumulador.y*arguments[0].w;
-		acumulador.w=acumulador.x*arguments[0].w+arguments[0].x*acumulador.w+acumulador.y*arguments[0].z-acumulador.z*arguments[0].y;
+		var q0 = acumulador.x;
+		var q1 = acumulador.y;
+		var q2 = acumulador.z;
+		var q3 = acumulador.w;
 
 
-		acumulador.x=acumulador.x*arguments[1].x-acumulador.y*arguments[1].y-acumulador.z*arguments[1].z-acumulador.w*arguments[1].w;
-		acumulador.y=acumulador.x*arguments[1].y+arguments[1].x*acumulador.y+acumulador.z*arguments[1].w-acumulador.w*arguments[1].z;
-		acumulador.z=acumulador.x*arguments[1].z+arguments[1].x*acumulador.z+acumulador.w*arguments[1].y-acumulador.y*arguments[1].w;
-		acumulador.w=acumulador.x*arguments[1].w+arguments[1].x*acumulador.w+acumulador.y*arguments[1].z-acumulador.z*arguments[1].y;
+		var r0 = arguments[0].x;
+		var r1 = arguments[0].y;
+		var r2 = arguments[0].z;
+		var r3 = arguments[0].w;
+
+
+
+		acumulador.x=r0*q0-r1*q1-r2*q2-r3*q3;
+		acumulador.y=r0*q1+r1*q0-r2*q3+r3*q2;
+		acumulador.z=r0*q2+r1*q3+r2*q0-r3*q1;
+		acumulador.w=r0*q3-r1*q2+r2*q1+r3*q0;
+
+		var q0 = acumulador.x;
+		var q1 = acumulador.y;
+		var q2 = acumulador.z;
+		var q3 = acumulador.w;
+
+
+		var r0 = arguments[1].x;
+		var r1 = arguments[1].y;
+		var r2 = arguments[1].z;
+		var r3 = arguments[1].w;
+
+		acumulador.x=r0*q0-r1*q1-r2*q2-r3*q3;
+		acumulador.y=r0*q1+r1*q0-r2*q3+r3*q2;
+		acumulador.z=r0*q2+r1*q3+r2*q0-r3*q1;
+		acumulador.w=r0*q3-r1*q2+r2*q1+r3*q0;
+
 		return acumulador;
 	}
 	
