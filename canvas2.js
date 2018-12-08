@@ -245,10 +245,14 @@ class Solido
 	}
 	rodar(q)
 	{
+		//transformar isso em metodo
+		var c = calculaCentroide(this);
+		this.transladar(-c.x,-c.y,-c.z);
 		for(i in this.faces)
 		{
 			this.faces[i].rodar(q);
 		}
+		this.transladar(c.x,c.y,c.z);
 	}
 	desenhar(ctx)
 	{
